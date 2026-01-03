@@ -1,5 +1,5 @@
 name: umar_nau7802_adc
-version: "1.2.4"
+version: "1.3"
 description: ESP-IDF library for the NAU7802 24-bit ADC (inspired by SparkFun library)
 dependencies:
   idf:
