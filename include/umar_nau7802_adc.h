@@ -80,7 +80,7 @@ typedef struct {
     i2c_port_t port;   // I2C controller port (e.g., I2C_NUM_0)
     uint8_t addr;      // 7-bit I2C address (ADR pin selects 0x2A or 0x2B)
     
-// Optional scale state (SparkFun parity). Callers may ignore these.
+// Optional scale state.
     float      calibration_factor; // default 1.0
     int32_t    zero_offset;        // default 0
     uint8_t    avg_samples;        // default 20
@@ -143,14 +143,14 @@ int nau7802_available(const nau7802_handle_t* i2c, bool* ready);
 // INT/CRDY polarity: high-active (default true) or low-active.
 int nau7802_set_int_polarity(const nau7802_handle_t* i2c, bool high_active);
 
-// Power helpers mimicking SparkFun's powerUp()/powerDown().
+// powerUp()/powerDown().
 int nau7802_power_up(const nau7802_handle_t* i2c);
 int nau7802_power_down(const nau7802_handle_t* i2c);
 
 // Revision code (DEVICE_REV & 0x0F)
 int nau7802_get_revision(const nau7802_handle_t* i2c, uint8_t* rev_low4);
 
-// Calibration modes and status (SparkFun-equivalent)
+// Calibration modes and status
 typedef enum {
     NAU7802_CALMOD_INTERNAL = 0, // internal offset
     NAU7802_CALMOD_OFFSET   = 2, // system offset
@@ -169,7 +169,7 @@ int nau7802_calibration_status(const nau7802_handle_t* i2c, nau7802_cal_status_t
 int nau7802_wait_calibrate(const nau7802_handle_t* i2c, uint32_t timeout_ms);
 int nau7802_calibrate(const nau7802_handle_t* i2c, nau7802_cal_mode_t mode, uint32_t timeout_ms);
 
-// Raw register helpers (SparkFun-style)
+// Raw register helpers
 int nau7802_get_register(const nau7802_handle_t* i2c, uint8_t reg, uint8_t* val);
 int nau7802_set_register(const nau7802_handle_t* i2c, uint8_t reg, uint8_t val);
 int nau7802_get_24(const nau7802_handle_t* i2c, uint8_t reg_msb, int32_t* value);

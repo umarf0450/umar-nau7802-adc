@@ -7,7 +7,7 @@
 static const char* TAG = "nau";
 
 
-// SparkFun-parity defaults
+
 #define NAU7802_DEFAULT_CAL_FACTOR   1.0f
 #define NAU7802_DEFAULT_ZERO_OFFSET  0
 #define NAU7802_DEFAULT_AVG_SAMPLES  20
@@ -423,7 +423,7 @@ int nau7802_enable_ldo(const nau7802_handle_t* i2c, nau7802_ldo_level mode, bool
 
     ESP_LOGI(TAG, "enabled internal ldo");
 
-// LDO ramp delay (SparkFun v1.0.5 defaults to ~250 ms)
+// LDO ramp delay ( defaults to ~250 ms)
     uint32_t ramp = i2c->ldo_ramp_ms ? i2c->ldo_ramp_ms : 250;
     vTaskDelay(pdMS_TO_TICKS(ramp));
 
@@ -538,9 +538,6 @@ int nau7802_set_deepsleep(const nau7802_handle_t* i2c, bool powerdown)
     return 0;
 }
 
-/* ==========================================================================
- *      ADDITIONAL API (SparkFun-compat style) — Implementations
- * ==========================================================================*/
 
 int nau7802_set_channel(const nau7802_handle_t* i2c, bool ch2)
 {
@@ -549,7 +546,7 @@ int nau7802_set_channel(const nau7802_handle_t* i2c, bool ch2)
     if (ch2) v |= 0x80; else v &= (uint8_t)~0x80; // CHS bit (bit 7)
     uint8_t buf[2] = { NAU7802_CTRL2, v };
     if (nau7802_xmit(i2c, buf, sizeof buf)) return -1;
-    // Per SparkFun guidance: re-calibrate after channel changes
+    // re-calibrate after channel changes
     return nau7802_internal_calibrate(i2c);
 }
 
@@ -827,7 +824,7 @@ int nau7802_get_weight(const nau7802_handle_t* i2c,
 int nau7802_set_channel1_offset(nau7802_handle_t* i2c, int32_t offset) {
     if (!i2c) return -1;
     i2c->zero_offset = offset;
-    // Also write the device OCAL1 register (SparkFun Example7 behavior)
+    // Also write the device OCAL1 register 
     return nau7802_set_24(i2c, NAU7802_OCAL1_B2, offset);
 }
 int nau7802_get_channel1_offset(const nau7802_handle_t* i2c, int32_t* offset) {
@@ -932,7 +929,7 @@ int nau7802_start(nau7802_handle_t* i2c, i2c_port_t port, uint8_t addr)
     // Optional: brief settle time for the analog rail
     vTaskDelay(pdMS_TO_TICKS(2));
 
-    // Defaults like SparkFun examples: 40 SPS, gain 16
+    // Defaults like  80 SPS, gain 128
     if (nau7802_set_sample_rate(i2c, 80) != 0) return -1;
     if (nau7802_set_gain(i2c, 128) != 0) return -1;
 
